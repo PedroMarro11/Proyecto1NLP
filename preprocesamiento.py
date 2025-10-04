@@ -49,7 +49,7 @@ def preprocesar_texto(corpus: str, vocabulario: list) -> list:
         if token not in string.punctuation and token not in stop_words:
             stemmed = stemmer.stem(token)
             lemmatized = lemmatizer.lemmatize(stemmed)
-            processed_tokens.append(lemmatized)
+            #processed_tokens.append(lemmatized)
             if vocabulario:
                 for palabra in vocabulario:
                     if lev.distance(lemmatized, palabra) <= 1:
