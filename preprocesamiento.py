@@ -9,6 +9,7 @@ import Levenshtein as lev
 nltk.download('punkt')
 nltk.download('stopwords')
 nltk.download('wordnet')
+nltk.download('punkt_tab')
 
 # Inicializar herramientas de NLTK
 stop_words = set(stopwords.words('spanish'))
