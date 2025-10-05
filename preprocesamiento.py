@@ -13,7 +13,7 @@ nltk.download('wordnet')
 # Inicializar herramientas de NLTK
 stop_words = set(stopwords.words('spanish'))
 
-def preprocesar_texto(corpus: str, vocabulario: list) -> list:
+def preprocesar_texto(corpus: str, vocabulario: list = [], compare: bool = False) -> list:
     """
     Preprocesa un texto:
     - Convierte a minúsculas
@@ -27,6 +27,7 @@ def preprocesar_texto(corpus: str, vocabulario: list) -> list:
     Args:
         corpus (str): El texto a preprocesar.
         vocabulario (list): Lista de palabras para comparar usando Levenshtein.
+        compare (bool): Si aplicará el algoritmo de Levenshtein con el vocabulario.
     Returns:
         list: Lista de tokens preprocesados.
     """
@@ -50,14 +51,17 @@ def preprocesar_texto(corpus: str, vocabulario: list) -> list:
             stemmed = stemmer.stem(token)
             lemmatized = lemmatizer.lemmatize(stemmed)
             #processed_tokens.append(lemmatized)
-            if vocabulario:
-                for palabra in vocabulario:
-                    if lev.distance(lemmatized, palabra) <= 1:
-                        processed_tokens.append(palabra)
-                    else:
-                        processed_tokens.append(lemmatized)
-                        vocabulario.append(lemmatized)
+            if compare:
+                if vocabulario:
+                    for palabra in vocabulario:
+                        if lev.distance(lemmatized, palabra) <= 1:
+                            processed_tokens.append(palabra)
+                        else:
+                            processed_tokens.append(lemmatized)
+                            vocabulario.append(lemmatized)
+                else:
+                    processed_tokens.append(lemmatized)
+                    vocabulario.append(lemmatized)
             else:
                 processed_tokens.append(lemmatized)
-                vocabulario.append(lemmatized)
     return processed_tokens
