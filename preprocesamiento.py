@@ -9,6 +9,7 @@ import Levenshtein as lev
 nltk.download('punkt')
 nltk.download('stopwords')
 nltk.download('wordnet')
+nltk.download('punkt_tab')
 
 # Inicializar herramientas de NLTK
 stop_words = set(stopwords.words('spanish'))
@@ -53,12 +54,15 @@ def preprocesar_texto(corpus: str, vocabulario: list = [], compare: bool = False
             #processed_tokens.append(lemmatized)
             if compare:
                 if vocabulario:
+                    encontrada = False
                     for palabra in vocabulario:
                         if lev.distance(lemmatized, palabra) <= 1:
                             processed_tokens.append(palabra)
-                        else:
-                            processed_tokens.append(lemmatized)
-                            vocabulario.append(lemmatized)
+                            encontrada = True
+                            break
+                    if not encontrada:
+                        processed_tokens.append(lemmatized)
+                        vocabulario.append(lemmatized)
                 else:
                     processed_tokens.append(lemmatized)
                     vocabulario.append(lemmatized)
